@@ -313,3 +313,7 @@ Nice ^^
 #### Status services của project neutron và cinder
 
 Làm tương tự như nova
+
+Kết quả
+
+<img src="https://i.imgur.com/2fORtzU.png">
