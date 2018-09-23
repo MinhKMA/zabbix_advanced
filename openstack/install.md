@@ -316,4 +316,4 @@ Làm tương tự như nova
 
 Kết quả
 
-<img src="https://i.imgur.com/2fORtzU.png">
+<img src="https://i.imgur.com/tKU9sba.png">
