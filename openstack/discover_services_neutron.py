@@ -44,21 +44,21 @@ def services_neutron(sess):
     check status agent of project neutron in openstack
     :param sess:
     :return: list
-    [{'alive': False, 'host': 'compute2', 'agent_type': 'Metadata agent'},
-     {'alive': True, 'host': 'compute1', 'agent_type': 'Metadata agent'},
-     {'alive': True, 'host': 'controller2', 'agent_type': 'L3 agent'},
-     {'alive': True, 'host': 'controller3', 'agent_type': 'L3 agent'},
-     {'alive': False, 'host': 'compute2', 'agent_type': 'Open vSwitch agent'},
-     {'alive': True, 'host': 'compute1', 'agent_type': 'Open vSwitch agent'},
-     {'alive': True, 'host': 'controller1', 'agent_type': 'L3 agent'},
-     {'alive': True, 'host': 'compute1', 'agent_type': 'DHCP agent'},
-     {'alive': False, 'host': 'compute2', 'agent_type': 'DHCP agent'}]
+    [{'binary': 'neutron-metadata-agent', 'alive': False, 'host': 'compute2'},
+     {'binary': 'neutron-metadata-agent', 'alive': True, 'host': 'compute1'},
+     {'binary': 'neutron-l3-agent', 'alive': True, 'host': 'controller2'},
+     {'binary': 'neutron-l3-agent', 'alive': True, 'host': 'controller3'},
+     {'binary': 'neutron-openvswitch-agent', 'alive': False, 'host': 'compute2'},
+     {'binary': 'neutron-openvswitch-agent', 'alive': True, 'host': 'compute1'},
+     {'binary': 'neutron-l3-agent', 'alive': True, 'host': 'controller1'},
+     {'binary': 'neutron-dhcp-agent', 'alive': True, 'host': 'compute1'},
+     {'binary': 'neutron-dhcp-agent', 'alive': False, 'host': 'compute2'}]
     '''
     agents_list = []
     neutron = neutron_client.Client(session=sess)
     agents = neutron.list_agents()
     for item in agents["agents"]:
-        agent_keys = {'agent_type', 'alive', 'host'}
+        agent_keys = {'binary', 'alive', 'host'}
         agent_dict = {key: value for key, value in item.items() if key in agent_keys}
         agents_list.append(agent_dict)
     return agents_list
@@ -67,7 +67,7 @@ def services_neutron(sess):
 def main():
     sess = auth()
     services = services_neutron(sess)
-    data = [{"{#NAME}":service['agent_type'],
+    data = [{"{#NAME}":service['binary'],
              "{#HOST}":service['host']} for service in services]
     print(json.dumps({"data": data}, indent=4))
 
