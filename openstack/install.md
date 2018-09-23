@@ -300,7 +300,7 @@ Tạo item prototypes
 
 <img src='https://i.imgur.com/15nWZOv.png'>
 
-<img src="https://i.imgur.com/HHwxFSS.png">
+<img src="https://i.imgur.com/pCXmadI.png">
 
 <img src="https://i.imgur.com/twOkqFj.png">
 
