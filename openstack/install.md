@@ -14,6 +14,7 @@ python get-pip.py
 yum install python-devel gcc wget -y
 pip install python-openstackclient
 pip install python-neutronclient
+pip install configparser
 ```
 
 ### Bước 2: Sự dụng các scripts check 
