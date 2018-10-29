@@ -1,3 +1,4 @@
+#!/usr/bin/python3.6
 from pyzabbix import ZabbixMetric, ZabbixSender
 from utils import Token, ListServices
 from client import OpenstackClient
@@ -7,25 +8,34 @@ zserver = 'IP_zabbix_server'
 port = 10051
 hostId = 'host_agent_send_to'
 key_volumes_available = 'volumes[available]'
+key_volumes_in_use = 'volumes[inuse]'
 key_volumes_more = 'volumes[more]'
 key_volumes_total = 'volumes[total]'
+key_volumes_backup_total = 'volumes[backup]'
 key_vms_total = 'vms[total]'
 key_vms_running = 'vms[running]'
 key_vms_stop = 'vms[stop]'
 
+
 def check_volumes(client):
     volumes = client.cinder_api.volumes.list(search_opts={'all_tenants':1})
+    total_volumes_backup = len(client.cinder_api.backups.list(search_opts={'all_tenants':1}))
     total_volumes = len(volumes)
     total_volumes_available = 0
     total_volumes_more = 0
+    total_volumes_in_use = 0
     for volume in volumes:
         if volume.status == 'available':
             total_volumes_available += 1
+        elif volume.status == 'in-use':
+            total_volumes_in_use += 1
         else:
             total_volumes_more += 1
     packet_volumes = [ZabbixMetric(hostId, key_volumes_total, total_volumes),
                       ZabbixMetric(hostId, key_volumes_available, total_volumes_available),
-                      ZabbixMetric(hostId, key_volumes_more, total_volumes_more)]
+                      ZabbixMetric(hostId, key_volumes_more, total_volumes_more),
+                      ZabbixMetric(hostId, key_volumes_in_use, total_volumes_in_use),
+                      ZabbixMetric(hostId, key_volumes_backup_total, total_volumes_backup)]
     return packet_volumes
     
 
