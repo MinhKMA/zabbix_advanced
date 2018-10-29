@@ -48,7 +48,10 @@
 - Chạy zabbix trong crontab 
 
     ```
-    contab -e 0 * * * * /usr/local/bin/zabbix_sender.py
+    contab -e 
+    .....................
+    
+    0 * * * * /usr/local/bin/zabbix_sender.py
     ```
 
 ## Kết quả 
